@@ -1,0 +1,35 @@
+Step 1: Data Preprocessing (data_preprocessing.py)
+
+This script will handle tasks like loading the dataset, handling missing values, and encoding categorical variables.
+
+source code:-
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler
+
+# Load the dataset
+def load_data(file_path):
+    data = pd.read_csv(file_path)
+    return data
+
+# Preprocess the data
+def preprocess_data(data):
+    # Handle missing values
+    imputer = SimpleImputer(strategy='mean')
+    data_imputed = pd.DataFrame(imputer.fit_transform(data.select_dtypes(include=['float64', 'int64'])))
+    data_imputed.columns = data.select_dtypes(include=['float64', 'int64']).columns
+    
+    # Standardize numerical features
+    scaler = StandardScaler()
+    data_scaled = pd.DataFrame(scaler.fit_transform(data_imputed), columns=data_imputed.columns)
+    
+    return data_scaled
+
+# Split the data into training and testing sets
+def split_data(data, target_column):
+    X = data.drop(target_column, axis=1)
+    y = data[target_column]
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    return X_train, X_test, y_train, y_test
+
