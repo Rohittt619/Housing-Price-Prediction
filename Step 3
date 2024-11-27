@@ -1,0 +1,19 @@
+Step 3: Utility Functions (utils.py)
+this will include helper functions like plotting graphs and additional metrics.
+
+source code:-
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Plot feature importance for Random Forest
+def plot_feature_importance(model, X):
+    feature_importance = model.feature_importances_
+    features = X.columns
+    importance_df = pd.DataFrame({'Feature': features, 'Importance': feature_importance})
+    importance_df = importance_df.sort_values(by='Importance', ascending=False)
+    
+    plt.figure(figsize=(10,6))
+    sns.barplot(x='Importance', y='Feature', data=importance_df)
+    plt.title('Feature Importance')
+    plt.show()
+
