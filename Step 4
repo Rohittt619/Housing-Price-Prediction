@@ -1,0 +1,32 @@
+Step 4: Jupyter Notebook (housing_price_analysis.ipynb)
+This notebook will combine everything into a readable format where you can analyze the dataset, preprocess it, train models, and evaluate performance.
+
+source code:-
+import pandas as pd
+from src.data_preprocessing import load_data, preprocess_data, split_data
+from src.model import train_random_forest, train_linear_regression, evaluate_model
+from src.utils import plot_feature_importance
+
+# Load dataset
+data = load_data('data/housing_data.csv')
+
+# Preprocess the data
+data_preprocessed = preprocess_data(data)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = split_data(data_preprocessed, target_column='Price')
+
+# Train and evaluate models
+rf_model = train_random_forest(X_train, y_train)
+lr_model = train_linear_regression(X_train, y_train)
+
+# Evaluate models
+rf_mae, rf_mse, rf_r2 = evaluate_model(rf_model, X_test, y_test)
+lr_mae, lr_mse, lr_r2 = evaluate_model(lr_model, X_test, y_test)
+
+# Display results
+print(f"Random Forest - MAE: {rf_mae}, MSE: {rf_mse}, R2: {rf_r2}")
+print(f"Linear Regression - MAE: {lr_mae}, MSE: {lr_mse}, R2: {lr_r2}")
+
+# Plot feature importance for Random Forest
+plot_feature_importance(rf_model, X_train)
